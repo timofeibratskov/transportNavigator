@@ -19,6 +19,7 @@
     <modules>
         <module>raspisanie</module>
         <module>telegram-bot</module>
+         <module>eureka</module>
     </modules>
 
     <dependencyManagement>
