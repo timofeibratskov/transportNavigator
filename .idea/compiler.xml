@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -17,6 +18,7 @@
       <module name="eureka" options="-parameters" />
       <module name="raspisanie" options="-parameters" />
       <module name="telegram-bot" options="-parameters" />
+      <module name="trmsport-parent" options="-parameters" />
     </option>
   </component>
 </project>

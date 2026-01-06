@@ -1,9 +1,9 @@
 package com.example.telegram_bot.bot;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
@@ -11,24 +11,18 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
-    private final String botToken;
-    private final String botName;
     private final TelegramClient telegramClient;
-    private final RestTemplate restTemplate;
 
-    @Value("${api.url}")
-    private String externalApiUrl;
+    @Value("${bot.token}")
+    private String botToken;
 
-    public TelegramBot(@Value("${bot.token}") String botToken,
-                       @Value("${bot.name}") String botName) {
-        this.botToken = botToken;
-        this.botName = botName;
-        this.telegramClient = new OkHttpTelegramClient(botToken);
-        this.restTemplate = new RestTemplate();
-    }
+    @Value("${bot.name}")
+    private String botName;
 
     @Override
     public String getBotToken() {
@@ -46,33 +40,49 @@ public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThrea
             String userMessage = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
 
-            if (userMessage.equals("/start")) {
-                sendText(chatId, "Привет! Я бот " + botName + ". Отправь мне что-нибудь, и я спрошу у сервера.");
-                return;
-            }
-
-            try {
-                String responseFromApi = restTemplate.getForObject(
-                        externalApiUrl + "?query=" + userMessage,
-                        String.class
-                );
-
-                sendText(chatId, "Мой API ответил: " + responseFromApi);
-            } catch (Exception e) {
-                sendText(chatId, "Ошибка связи с сервером: " + e.getMessage());
+            // Используем switch - так удобнее расширять список команд
+            switch (userMessage) {
+                case "/start" -> handleStartCommand(chatId);
+                case "/info" -> handleInfoCommand(chatId);
+                default -> sendText(chatId, "Вы написали: " + userMessage + "\nИспользуйте /info для справки.");
             }
         }
+    }
+
+    private void handleStartCommand(long chatId) {
+        String welcomeText = "👋 Привет! Я бот " + botName + ".\n" +
+                "Я помогу тебе узнать расписание транспорта.";
+        sendText(chatId, welcomeText);
+    }
+
+    private void handleInfoCommand(long chatId) {
+        String infoText = """
+                ℹ️ <b>Информация о проекте</b>
+                Этот бот может не только выводить расписание по остановке.
+                он может построить маршрут""";
+
+        SendMessage sm = SendMessage.builder()
+                .chatId(chatId)
+                .parseMode("HTML")
+                .text(infoText)
+                .build();
+        executeMessage(sm);
     }
 
     private void sendText(long chatId, String text) {
         SendMessage sm = SendMessage.builder()
                 .chatId(chatId)
                 .text(text)
+                .parseMode("HTML")
                 .build();
+        executeMessage(sm);
+    }
+
+    private void executeMessage(SendMessage sm) {
         try {
             telegramClient.execute(sm);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Ошибка при отправке сообщения в Telegram: {}", e.getMessage());
         }
     }
 }
