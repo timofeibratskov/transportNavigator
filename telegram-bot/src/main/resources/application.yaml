@@ -1,6 +1,10 @@
 spring:
   application:
     name: telegram-bot
+
 bot:
   name: ${BOT_NAME}
   token: ${BOT_TOKEN}
+
+server:
+  port: 8090
