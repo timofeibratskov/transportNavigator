@@ -1,5 +1,8 @@
 package com.example.telegram_bot.bot;
 
+import com.example.telegram_bot.handler.UpdateHandler;
+import com.example.telegram_bot.model.UserSession;
+import com.example.telegram_bot.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,72 +20,38 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
     private final TelegramClient telegramClient;
+    private final SessionService sessionService;
+    private final UpdateHandler updateHandler;
 
     @Value("${bot.token}")
     private String botToken;
 
-    @Value("${bot.name}")
-    private String botName;
+    @Override
+    public String getBotToken() { return botToken; }
 
     @Override
-    public String getBotToken() {
-        return botToken;
-    }
-
-    @Override
-    public LongPollingUpdateConsumer getUpdatesConsumer() {
-        return this;
-    }
+    public LongPollingUpdateConsumer getUpdatesConsumer() { return this; }
 
     @Override
     public void consume(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            String userMessage = update.getMessage().getText();
-            long chatId = update.getMessage().getChatId();
-
-            // Используем switch - так удобнее расширять список команд
-            switch (userMessage) {
-                case "/start" -> handleStartCommand(chatId);
-                case "/info" -> handleInfoCommand(chatId);
-                default -> sendText(chatId, "Вы написали: " + userMessage + "\nИспользуйте /info для справки.");
-            }
-        }
-    }
-
-    private void handleStartCommand(long chatId) {
-        String welcomeText = "👋 Привет! Я бот " + botName + ".\n" +
-                "Я помогу тебе узнать расписание транспорта.";
-        sendText(chatId, welcomeText);
-    }
-
-    private void handleInfoCommand(long chatId) {
-        String infoText = """
-                ℹ️ <b>Информация о проекте</b>
-                Этот бот может не только выводить расписание по остановке.
-                он может построить маршрут""";
-
-        SendMessage sm = SendMessage.builder()
-                .chatId(chatId)
-                .parseMode("HTML")
-                .text(infoText)
-                .build();
-        executeMessage(sm);
-    }
-
-    private void sendText(long chatId, String text) {
-        SendMessage sm = SendMessage.builder()
-                .chatId(chatId)
-                .text(text)
-                .parseMode("HTML")
-                .build();
-        executeMessage(sm);
-    }
-
-    private void executeMessage(SendMessage sm) {
         try {
-            telegramClient.execute(sm);
+            long chatId = extractChatId(update);
+            if (chatId == 0) return;
+            UserSession session = sessionService.getSession(chatId);
+
+            SendMessage response = updateHandler.handleUpdate(update, session);
+
+            if (response != null) {
+                telegramClient.execute(response);
+            }
         } catch (Exception e) {
-            log.error("Ошибка при отправке сообщения в Telegram: {}", e.getMessage());
+            log.error("Критическая ошибка бота: {}", e.getMessage());
         }
+    }
+
+    private long extractChatId(Update update) {
+        if (update.hasMessage()) return update.getMessage().getChatId();
+        if (update.hasCallbackQuery()) return update.getCallbackQuery().getMessage().getChatId();
+        return 0;
     }
 }
