@@ -1,7 +1,7 @@
 package com.example.telegram_bot.dto;
 
 import com.example.telegram_bot.model.Stop;
-import com.example.telegram_bot.model.Transport;
+import com.example.telegram_bot.model.enums.Transport;
 import lombok.Builder;
 
 import java.time.LocalTime;

@@ -1,5 +1,6 @@
 package com.example.telegram_bot.model;
 
+import com.example.telegram_bot.model.enums.BotState;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

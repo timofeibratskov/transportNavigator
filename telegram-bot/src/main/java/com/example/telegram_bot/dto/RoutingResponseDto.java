@@ -1,15 +1,23 @@
 package com.example.telegram_bot.dto;
 
 
+import com.example.telegram_bot.model.enums.OptimizationType;
 import lombok.Builder;
 
 import java.util.List;
 
 @Builder
 public record RoutingResponseDto(
-        int transfers,
-        int stopsAmount,
+        Integer totalStops,
+
+        Integer transfers,
+
         String routeTime,
-        List<PathDto> pathDtoList
+
+        OptimizationType optimizationType,
+
+        List<PathDto> fullPath,
+
+        List<SegmentDto> segments
 ) {
 }

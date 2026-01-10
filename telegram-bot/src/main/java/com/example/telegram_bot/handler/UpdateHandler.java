@@ -1,7 +1,7 @@
 package com.example.telegram_bot.handler;
 
 import com.example.telegram_bot.client.RaspisanieClient;
-import com.example.telegram_bot.model.BotState;
+import com.example.telegram_bot.model.enums.BotState;
 import com.example.telegram_bot.model.Stop;
 import com.example.telegram_bot.model.UserSession;
 import com.example.telegram_bot.service.RoutingService;

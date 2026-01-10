@@ -4,10 +4,10 @@ import com.example.telegram_bot.dto.RoutingResponseDto;
 import com.example.telegram_bot.dto.RoutingRequestDto;
 import com.example.telegram_bot.dto.ShortRouteDto;
 import com.example.telegram_bot.dto.ScheduleResponseDto;
-import com.example.telegram_bot.model.Day;
+import com.example.telegram_bot.model.enums.Day;
 import com.example.telegram_bot.model.Route;
 import com.example.telegram_bot.model.Stop;
-import com.example.telegram_bot.model.Transport;
+import com.example.telegram_bot.model.enums.Transport;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,4 +53,7 @@ public interface RaspisanieClient {
 
     @PostMapping("/api/v1/routing/plan")
     RoutingResponseDto planRoute(@RequestBody RoutingRequestDto request);
+
+    @PostMapping("/api/v1/routing/plan/all")
+    List<RoutingResponseDto> getAllPlans(@RequestBody RoutingRequestDto request);
 }

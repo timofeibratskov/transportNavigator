@@ -1,4 +1,4 @@
-package com.example.telegram_bot.model;
+package com.example.telegram_bot.model.enums;
 
 public enum BotState {
     IDLE,

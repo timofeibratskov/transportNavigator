@@ -1,5 +1,6 @@
 package com.example.telegram_bot.model;
 
+import com.example.telegram_bot.model.enums.Transport;
 import lombok.Builder;
 
 import java.util.List;
