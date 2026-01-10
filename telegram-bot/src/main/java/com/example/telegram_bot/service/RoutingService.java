@@ -4,14 +4,11 @@ import com.example.telegram_bot.client.RaspisanieClient;
 import com.example.telegram_bot.dto.RoutingRequestDto;
 import com.example.telegram_bot.dto.RoutingResponseDto;
 import com.example.telegram_bot.dto.SegmentDto;
-import com.example.telegram_bot.model.enums.Day;
 import com.example.telegram_bot.model.UserSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -21,6 +18,7 @@ import java.util.List;
 public class RoutingService {
 
     private final RaspisanieClient client;
+    private final DayService dayService;
 
     public String buildAndFormatRoute(UserSession session) {
         try {
@@ -28,7 +26,7 @@ public class RoutingService {
                     session.getOriginId(),
                     session.getDestId(),
                     LocalTime.now(),
-                    getDayType()
+                    dayService.getDayType()
             );
 
             List<RoutingResponseDto> responses = client.getAllPlans(request);
@@ -132,12 +130,5 @@ public class RoutingService {
             case "LEAST_TRANSFERS" -> "🔄 (Меньше пересадок)";
             default -> "";
         };
-    }
-
-    private Day getDayType() {
-        DayOfWeek dayOfWeek = LocalDateTime.now().getDayOfWeek();
-        return (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY)
-                ? Day.WEEKEND
-                : Day.WEEKDAY;
     }
 }
