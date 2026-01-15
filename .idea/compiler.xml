@@ -18,6 +18,7 @@
       <module name="eureka" options="-parameters" />
       <module name="raspisanie" options="-parameters" />
       <module name="telegram-bot" options="-parameters" />
+      <module name="transport-project-parent" options="-parameters" />
       <module name="trmsport-parent" options="-parameters" />
     </option>
   </component>
