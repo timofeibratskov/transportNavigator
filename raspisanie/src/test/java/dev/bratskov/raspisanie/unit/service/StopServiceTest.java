@@ -1,10 +1,13 @@
-package dev.bratskov.raspisanie.service;
+package dev.bratskov.raspisanie.unit.service;
 
 import dev.bratskov.raspisanie.exception.ResourceNotFoundException;
 import dev.bratskov.raspisanie.model.Route;
 import dev.bratskov.raspisanie.model.Stop;
 import dev.bratskov.raspisanie.model.enums.Transport;
 import dev.bratskov.raspisanie.repo.StopRepo;
+import dev.bratskov.raspisanie.service.RouteService;
+import dev.bratskov.raspisanie.service.StopSearchService;
+import dev.bratskov.raspisanie.service.StopService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

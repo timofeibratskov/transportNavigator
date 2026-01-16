@@ -33,9 +33,7 @@ public class RoutingController {
     @PostMapping("/plan/all")
     @Operation(
             summary = "Найти все варианты маршрута",
-            description = "Возвращает до 3 вариантов маршрута, оптимизированных по разным критериям: " +
-                    "самый быстрый (FASTEST), с минимумом остановок (LEAST_STOPS), " +
-                    "с минимумом пересадок (LEAST_TRANSFERS). " +
+            description = "Возвращает до 3 вариантов маршрута. " +
                     "Если варианты совпадают, возвращается только уникальные маршруты."
     )
     public List<RoutingResponseDto> getAllPlans(@Valid @RequestBody RoutingRequestDto requestDto) {

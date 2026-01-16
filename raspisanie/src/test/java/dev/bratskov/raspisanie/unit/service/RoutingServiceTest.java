@@ -1,4 +1,4 @@
-package dev.bratskov.raspisanie.service;
+package dev.bratskov.raspisanie.unit.service;
 
 import dev.bratskov.raspisanie.dto.PathDto;
 import dev.bratskov.raspisanie.dto.RoutingRequestDto;
@@ -7,6 +7,7 @@ import dev.bratskov.raspisanie.dto.SegmentDto;
 import dev.bratskov.raspisanie.model.Stop;
 import dev.bratskov.raspisanie.model.enums.Day;
 import dev.bratskov.raspisanie.model.enums.Transport;
+import dev.bratskov.raspisanie.service.RoutingService;
 import dev.bratskov.raspisanie.service.raptor.Raptor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

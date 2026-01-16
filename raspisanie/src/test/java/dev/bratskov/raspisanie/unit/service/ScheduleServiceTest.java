@@ -1,4 +1,4 @@
-package dev.bratskov.raspisanie.service;
+package dev.bratskov.raspisanie.unit.service;
 
 import dev.bratskov.raspisanie.dto.ScheduleResponseDto;
 import dev.bratskov.raspisanie.model.Route;
@@ -8,6 +8,9 @@ import dev.bratskov.raspisanie.model.Trip;
 import dev.bratskov.raspisanie.model.enums.Day;
 import dev.bratskov.raspisanie.model.enums.Transport;
 import dev.bratskov.raspisanie.repo.TripRepo;
+import dev.bratskov.raspisanie.service.RouteService;
+import dev.bratskov.raspisanie.service.ScheduleService;
+import dev.bratskov.raspisanie.service.StopService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

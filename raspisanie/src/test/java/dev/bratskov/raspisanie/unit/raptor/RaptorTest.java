@@ -1,4 +1,4 @@
-package dev.bratskov.raspisanie.service.raptor;
+package dev.bratskov.raspisanie.unit.raptor;
 
 import dev.bratskov.raspisanie.dto.PathDto;
 import dev.bratskov.raspisanie.model.Stop;
@@ -10,6 +10,7 @@ import dev.bratskov.raspisanie.model.enums.Transport;
 import dev.bratskov.raspisanie.repo.StopRepo;
 import dev.bratskov.raspisanie.repo.TripRepo;
 import dev.bratskov.raspisanie.service.StopService;
+import dev.bratskov.raspisanie.service.raptor.Raptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -328,8 +329,6 @@ class RaptorTest {
         assertThat(path).hasSize(5);
         assertThat(path.getLast().stop()).isEqualTo(stopD);
     }
-
-
     private Stop createStop(String name) {
         return Stop.builder().id(UUID.randomUUID()).name(name).description("Desc " + name).build();
     }

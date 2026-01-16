@@ -1,7 +1,8 @@
-package dev.bratskov.raspisanie.service;
+package dev.bratskov.raspisanie.unit.service;
 
 import dev.bratskov.raspisanie.model.Stop;
 import dev.bratskov.raspisanie.repo.StopRepo;
+import dev.bratskov.raspisanie.service.StopSearchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
