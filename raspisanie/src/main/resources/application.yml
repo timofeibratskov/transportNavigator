@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+data:
+  trips-file: classpath:trips.txt
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
+
+spring:
+  application:
+    name: raspisanie-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
