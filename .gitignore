@@ -1,0 +1,13 @@
+# ===== SECRETS =====
+.env
+.env.*
+**/.env
+
+# ===== BUILD =====
+target/
+build/
+
+# ===== IDE =====
+.idea/
+*.iml
+.vscode/
