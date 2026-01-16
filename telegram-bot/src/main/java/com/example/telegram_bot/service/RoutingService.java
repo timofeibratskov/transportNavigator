@@ -52,21 +52,16 @@ public class RoutingService {
     }
 
     private String formatSingleRoute(RoutingResponseDto route, String originName, String destName) {
-        StringBuilder sb = new StringBuilder();
 
-        sb.append("🗺️ <b>Ваш маршрут</b>\n");
-        sb.append("━━━━━━━━━━━━━━━\n\n");
-        sb.append("📍 <b>Откуда:</b> ").append(originName).append("\n");
-        sb.append("📍 <b>Куда:</b> ").append(destName).append("\n\n");
-        sb.append("⏱ <b>В пути:</b> ").append(route.routeTime()).append("\n");
-        sb.append("🚏 <b>Остановок:</b> ").append(route.totalStops()).append("\n");
-        sb.append("🔄 <b>Пересадок:</b> ").append(route.transfers()).append("\n\n");
-
-        sb.append(formatSegments(route.segments()));
-
-        sb.append("\n✅ <i>Приятной поездки!</i>");
-
-        return sb.toString();
+        return "🗺️ <b>Ваш маршрут</b>\n" +
+                "━━━━━━━━━━━━━━━\n\n" +
+                "📍 <b>Откуда:</b> " + originName + "\n" +
+                "📍 <b>Куда:</b> " + destName + "\n\n" +
+                "⏱ <b>В пути:</b> " + route.routeTime() + "\n" +
+                "🚏 <b>Остановок:</b> " + route.totalStops() + "\n" +
+                "🔄 <b>Пересадок:</b> " + route.transfers() + "\n\n" +
+                formatSegments(route.segments()) +
+                "\n✅ <i>Приятной поездки!</i>";
     }
 
     private String formatMultipleRoutes(List<RoutingResponseDto> responses) {
@@ -80,7 +75,6 @@ public class RoutingService {
 
             sb.append("━━━━━━━━━━━━━━━\n");
             sb.append("<b>Вариант ").append(i + 1).append("</b> ");
-            sb.append(getOptimizationEmoji(route.optimizationType().name())).append("\n");
             sb.append("⏱ Время: ").append(route.routeTime());
             sb.append(" | 🚏 Остановок: ").append(route.totalStops());
             sb.append(" | 🔄 Пересадок: ").append(route.transfers()).append("\n\n");
@@ -121,14 +115,5 @@ public class RoutingService {
         }
 
         return sb.toString();
-    }
-
-    private String getOptimizationEmoji(String type) {
-        return switch (type) {
-            case "FASTEST" -> "⚡ (Самый быстрый)";
-            case "LEAST_STOPS" -> "🎯 (Меньше остановок)";
-            case "LEAST_TRANSFERS" -> "🔄 (Меньше пересадок)";
-            default -> "";
-        };
     }
 }
