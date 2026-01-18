@@ -14,7 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.*;
+import java.util.UUID;
+import java.util.List;
+import java.util.Set;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -96,7 +101,7 @@ class RouteServiceTest {
         List<ShortRouteDto> result = routeService.findAll(Transport.BUS);
 
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).transport()).isEqualTo(Transport.BUS);
+        assertThat(result.getFirst().transport()).isEqualTo(Transport.BUS);
         verify(routeMapper, times(1)).toShortRouteDto(busRoute);
         verify(routeMapper, never()).toShortRouteDto(trolleybusRoute);
     }

@@ -1,0 +1,6 @@
+data:
+  trips-file: classpath:test-trips.txt
+
+eureka:
+  client:
+    enabled: false
